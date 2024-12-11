@@ -1,39 +1,166 @@
-# Abacatepay::Rails
+# AbacatePay SDK for Ruby on Rails
 
-TODO: Delete this and the text below, and describe your gem
+## 💻 Installation
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/abacatepay/rails`. To experiment with that code, run `bin/console` for an interactive prompt.
+Add this line to your application's Gemfile:
 
-## Installation
+```ruby
+gem 'abacatepay-rails'
+```
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+And then execute:
 
-Install the gem and add to the application's Gemfile by executing:
+```bash
+bundle install
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+Or install it yourself as:
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+```bash
+gem install abacatepay-rails
+```
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_PRIOR_TO_RELEASE_TO_RUBYGEMS_ORG
+## 🔧 Configuration
 
-## Usage
+Configure your API token and environment in an initializer:
 
-TODO: Write usage instructions here
+```ruby
+# config/initializers/abacatepay.rb
+AbacatePay.configure do |config|
+  config.api_token = ENV['ABACATEPAY_TOKEN']
+  config.environment = :sandbox # or :production
+end
+```
 
-## Development
+## 🌟 Resources
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+### Billing
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+**Initialize the Billing Client**
 
-## Contributing
+```ruby
+billing_client = AbacatePay::Clients::BillingClient.new
+```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/abacatepay-rails. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/abacatepay-rails/blob/main/CODE_OF_CONDUCT.md).
+**List Billings**
 
-## License
+Retrieve a list of all billings:
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+```ruby
+billing_client.list
+```
 
-## Code of Conduct
+**Create a Billing**
 
-Everyone interacting in the Abacatepay::Rails project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/abacatepay-rails/blob/main/CODE_OF_CONDUCT.md).
+To create a billing, use the following code:
+
+```ruby
+billing_client.create(
+  AbacatePay::Resources::Billing.new(
+    frequency: AbacatePay::Enums::Billing::Frequencies::ONE_TIME,
+    methods: [AbacatePay::Enums::Billing::Methods::PIX],
+    products: [
+      AbacatePay::Resources::Billing::Product.new(
+        external_id: 'abc_123',
+        name: 'Product A',
+        description: 'Description of product A',
+        quantity: 1,
+        price: 100 # Price in cents
+      )
+    ],
+    metadata: AbacatePay::Resources::Billing::Metadata.new(
+      return_url: 'https://www.abacatepay.com',
+      completion_url: 'https://www.abacatepay.com'
+    ),
+    customer: AbacatePay::Resources::Customer.new(
+      metadata: AbacatePay::Resources::Customer::Metadata.new(
+        name: 'Abacate Lover',
+        cellphone: '01912341234',
+        email: 'lover@abacate.com',
+        tax_id: '13827826837'
+      )
+    )
+  )
+)
+```
+
+Alternatively, you can use a previously created customer by specifying their ID:
+
+```ruby
+AbacatePay::Resources::Customer.new(
+  id: 'cust_DEbpqcN...'
+)
+```
+
+### Customer
+
+**Initialize the Customer Client**
+
+```ruby
+customer_client = AbacatePay::Clients::CustomerClient.new
+```
+
+**List Customers**
+
+Retrieve a list of all customers:
+
+```ruby
+customer_client.list
+```
+
+**Create a Customer**
+
+To create a customer, use the following code:
+
+```ruby
+customer_client.create(
+  AbacatePay::Resources::Customer.new(
+    metadata: AbacatePay::Resources::Customer::Metadata.new(
+      name: 'Abacate Lover',
+      cellphone: '01912341234',
+      email: 'lover@abacate.com',
+      tax_id: '13827826837'
+    )
+  )
+)
+```
+
+## 📚 Documentation
+
+For detailed information about the API and SDK, refer to the official documentation:
+https://abacatepay.readme.io/reference
+
+## 🤝 Contribution
+
+Contributions are welcome! If you wish to contribute:
+
+1. Fork the repository
+2. Create a new branch for your feature or fix:
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+3. Make your changes and commit them:
+
+```bash
+git commit -m "Add your detailed commit message here"
+```
+
+4. Push to your branch:
+
+```bash
+git push origin feature/your-feature-name
+```
+
+5. Open a pull request with a clear description of your changes
+
+Please ensure your code:
+
+- Includes proper documentation
+- Follows Ruby style guidelines
+- Includes appropriate tests
+- Passes all existing tests (bundle exec rspec)
+- Passes code style checks (bundle exec rubocop)
+
+### Happy coding! 🚀

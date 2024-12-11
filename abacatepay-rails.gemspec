@@ -8,17 +8,17 @@ Gem::Specification.new do |spec|
   spec.authors = ["Matheus Cardoso"]
   spec.email = ["mathuscardoso@gmail.com"]
 
-  spec.summary = "AbacatePay Ruby Gem for you to start receiving payments in seconds"
-  spec.description = "The easiest way to integrate your Ruby base code to AbacatePay Gateway with support to coroutines."
-  spec.homepage = "TODO: Put your gem's website or public repo URL here."
+  spec.summary = "AbacatePay Ruby on Rails SDK for you to start receiving payments in seconds"
+  spec.description = "The easiest way to integrate your Ruby on Rails SDK base code to AbacatePay Gateway with support to coroutines."
+  spec.homepage = "https://www.abacatepay.com/"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 2.6.0"
 
   spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = "https://github.com/user-matth/abacatepay-rails-sdk"
+  # spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
